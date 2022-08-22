@@ -16,16 +16,60 @@ class GameViewController: UIViewController {
     @IBOutlet var winnerLabel: UILabel!
     @IBOutlet var restartButton: UIButton!
     
+    private var countOfSteps = 0
+    
+    private var gameboard = Gameboard()
+    
+    private var currentState: GameState! {
+        didSet
+        { self.currentState.begin()}
+    }
+    
+    private lazy var referee = Referee(gameboard: self.gameboard)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.goToFirstState()
+        
         gameboardView.onSelectPosition = { [weak self] position in
             guard let self = self else { return }
-            self.gameboardView.placeMarkView(XView(), at: position)
+            self.countOfSteps+=1
+            self.currentState.addMark(at: position)
+            if self.currentState.isCompleted {
+                self.goToNextState()
+            }
+        }
+    }
+    
+    private func goToFirstState() {
+        let player = Player.first
+        self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype, gameViewController: self, gameboard: gameboard, gameboardView: gameboardView)
+    }
+    
+    private func goToNextState() {
+        
+        if let winner = self.referee.determineWinner() {
+            self.currentState = GameEndedState(winner: winner, gameViewController: self)
+            return
+        }
+        
+        if countOfSteps == 9 {
+            self.currentState = GameEndedState(winner: nil, gameViewController: self)
+            return
+        }
+        
+        if let playerInputState = currentState as? PlayerInputState {
+            let player = playerInputState.player.next
+            self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype,gameViewController: self, gameboard: gameboard, gameboardView: gameboardView)
         }
     }
     
     @IBAction func restartButtonTapped(_ sender: UIButton) {
-        
+        log(.restartGame)
+        countOfSteps = 0
+        gameboardView.clear()
+        gameboard.clear()
+        self.goToFirstState()
     }
 }
 
