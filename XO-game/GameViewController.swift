@@ -16,6 +16,9 @@ class GameViewController: UIViewController {
     @IBOutlet var winnerLabel: UILabel!
     @IBOutlet var restartButton: UIButton!
     
+    public var gameMode:GameMode = .vsPlayer
+    private var nextStateMode:(()->Void)!
+    
     private var countOfSteps = 0
     
     private var gameboard = Gameboard()
@@ -30,17 +33,42 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.goToFirstState()
-        
-        gameboardView.onSelectPosition = { [weak self] position in
-            guard let self = self else { return }
-            self.countOfSteps+=1
-            self.currentState.addMark(at: position)
-            if self.currentState.isCompleted {
-                self.goToNextState()
+        if gameMode == .vsPlayer {
+            nextStateMode = {
+                if let playerInputState = self.currentState as? PlayerInputState {
+                    let player = playerInputState.player.next
+                    self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype,gameViewController: self, gameboard: self.gameboard, gameboardView: self.gameboardView)
+                }
+            }
+        } else {
+            nextStateMode = {
+                if let playerInputState = self.currentState as? PlayerInputState {
+                    let player = playerInputState.player.next
+                    self.currentState = ComputerInputState(player: player, markViewPrototype: player.markViewPrototype,gameViewController: self, gameboard: self.gameboard, gameboardView: self.gameboardView)
+                    guard let position = self.gameboard.getFirstFreePosition() else {
+                        self.currentState = GameEndedState(winner: nil, gameViewController: self)
+                        return
+                    }
+                    (self.gameboardView.onSelectPosition ?? {_ in})(position)
+                    
+                } else if let computerInputState = self.currentState as? ComputerInputState {
+                    let player = computerInputState.player.next
+                    self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype,gameViewController: self, gameboard: self.gameboard, gameboardView: self.gameboardView)
+                }
+            }
+            
+            gameboardView.onSelectPosition = { [weak self] position in
+                guard let self = self else { return }
+                self.countOfSteps+=1
+                self.currentState.addMark(at: position)
+                
+                if self.currentState.isCompleted {
+                    self.goToNextState()
+                }
             }
         }
     }
-    
+        
     private func goToFirstState() {
         let player = Player.first
         self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype, gameViewController: self, gameboard: gameboard, gameboardView: gameboardView)
@@ -58,10 +86,8 @@ class GameViewController: UIViewController {
             return
         }
         
-        if let playerInputState = currentState as? PlayerInputState {
-            let player = playerInputState.player.next
-            self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype,gameViewController: self, gameboard: gameboard, gameboardView: gameboardView)
-        }
+        nextStateMode()
+        
     }
     
     @IBAction func restartButtonTapped(_ sender: UIButton) {

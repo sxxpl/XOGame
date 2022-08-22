@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public final class Gameboard {
     
@@ -38,6 +39,16 @@ public final class Gameboard {
         return positions[column][row] == player
     }
     
+    public func getFirstFreePosition() -> GameboardPosition?{
+        for i in 0..<GameboardSize.columns{
+            for j in 0..<GameboardSize.rows{
+                guard let _ = positions[i][j] else {
+                    return GameboardPosition(column: i, row: j)
+                }
+            }
+        }
+        return nil
+    }
     // MARK: - Private
     
     private func initialPositions() -> [[Player?]] {

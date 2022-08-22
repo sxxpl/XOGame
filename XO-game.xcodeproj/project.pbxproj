@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD7FDFEC28B3EA5E000BB520 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7FDFEB28B3EA5E000BB520 /* MainMenuViewController.swift */; };
+		AD7FDFF028B3F15D000BB520 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7FDFEF28B3F15D000BB520 /* GameMode.swift */; };
 		ADC5E8BC28B367CF00657159 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC5E8BB28B367CF00657159 /* GameState.swift */; };
 		ADC5E8BE28B3772B00657159 /* CopyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC5E8BD28B3772B00657159 /* CopyProtocol.swift */; };
 		ADC5E8C028B386E100657159 /* LogAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC5E8BF28B386E100657159 /* LogAction.swift */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD7FDFEB28B3EA5E000BB520 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		AD7FDFEF28B3F15D000BB520 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		ADC5E8BB28B367CF00657159 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		ADC5E8BD28B3772B00657159 /* CopyProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyProtocol.swift; sourceTree = "<group>"; };
 		ADC5E8BF28B386E100657159 /* LogAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogAction.swift; sourceTree = "<group>"; };
@@ -80,6 +84,7 @@
 			children = (
 				F874E4702224621100364CAE /* AppDelegate.swift */,
 				F874E4722224621100364CAE /* GameViewController.swift */,
+				AD7FDFEB28B3EA5E000BB520 /* MainMenuViewController.swift */,
 				F874E4F02225DFF700364CAE /* Referee.swift */,
 				ADC5E8BD28B3772B00657159 /* CopyProtocol.swift */,
 				F874E4E62225CB3F00364CAE /* Models */,
@@ -115,6 +120,7 @@
 		F874E4E62225CB3F00364CAE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AD7FDFEF28B3F15D000BB520 /* GameMode.swift */,
 				F874E4DC2225C25D00364CAE /* GameboardPosition.swift */,
 				F874E4F22225E0B100364CAE /* GameboardSize.swift */,
 				F874E4F42225E2CD00364CAE /* Gameboard.swift */,
@@ -201,7 +207,9 @@
 				F874E4F12225DFF700364CAE /* Referee.swift in Sources */,
 				ADC5E8C028B386E100657159 /* LogAction.swift in Sources */,
 				F874E4F52225E2CD00364CAE /* Gameboard.swift in Sources */,
+				AD7FDFEC28B3EA5E000BB520 /* MainMenuViewController.swift in Sources */,
 				F874E4712224621100364CAE /* AppDelegate.swift in Sources */,
+				AD7FDFF028B3F15D000BB520 /* GameMode.swift in Sources */,
 				F874E4E22225CABF00364CAE /* OView.swift in Sources */,
 				F874E4F32225E0B100364CAE /* GameboardSize.swift in Sources */,
 				F874E4E42225CB0700364CAE /* XView.swift in Sources */,
